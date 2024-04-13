@@ -1,0 +1,47 @@
+/*punto 1*/
+*{
+    background-color: #222;
+    color:#ee6;
+}
+/*punto 2*/
+h1{
+    text-align: center;
+}
+/*punto 3*/
+p{
+    font-family: sans-serif;
+}
+/*punto 4*/
+h1, h2, h3, h4, h5, h6{
+    color: #eee;
+}
+/*punto 5*/
+strong{
+    border-bottom: 1px solid white  ;
+}
+/*punto 6*/
+.the-force{
+    background-color: #444 ;
+    font-weight: bolder;
+}
+/*punto 7*/
+.light-side{
+    color: #66f;
+}
+.dark-side{
+    color: #f33;
+}
+/*punto 8*/
+#og-trilogy{
+    list-style-type: circle;
+}
+
+
+
+
+
+
+
+
+
+
