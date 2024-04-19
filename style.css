@@ -35,9 +35,14 @@ strong{
 #og-trilogy{
     list-style-type: circle;
 }
-
-
-
+/* punto 9 */
+ul:nth-child(4n){
+    padding-left: 100px;
+}
+/* punto 10 */
+ul:nth-child(5n){
+    margin-top: 50px;
+}
 
 
 
