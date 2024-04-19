@@ -1,0 +1,51 @@
+/*1*/
+h1 {
+    text-align: center
+}
+/*2*/
+p{
+    font-family: serif;
+}
+/*3*/
+#primer-parrafo{
+    background-color: #CEE;
+}
+/*4*/
+#contenedor #primer-parrafo em {
+    color: #933;
+}
+/*5*/
+a {
+    outline: 1px solid #333 !important;
+}
+/*6*/
+#fuente{
+    opacity: 1 !important;
+}
+/*7*/
+.fuente {
+    color: #000 !important; 
+}
+/*8*/
+.complicado {
+    font-weight: bold; 
+    color: #C62 !important;       
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
