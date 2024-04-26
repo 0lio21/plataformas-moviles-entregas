@@ -44,7 +44,7 @@
     }
 }
 /*8*/
-@media screen and (min-width: 800px) and (max-width: 899px) {
+@media screen and (min-width: 800px) and (max-width: 900px) {
     img {
       display: none;
     }
@@ -59,7 +59,8 @@
 /*10*/
 @media (min-resolution: 2dppx) {
 article {
-      background-color: #667;}
+      background-color:#667;
+    }
 }
 
 
