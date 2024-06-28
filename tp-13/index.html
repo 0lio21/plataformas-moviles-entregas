@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Lista de Contactos - DOM y JavaScript</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container my-1 my-sm-2 my-md-4 my-lg-5">
+        <h1>Lista de Contactos</h1>
+        <div class="card">
+            <div class="card-body">
+                <h2>Contactos</h2>
+
+                <ul id="lista-contactos"></ul>
+
+                <hr class="hr">
+
+                <h2>Nuevo Contacto</h2>
+                <form id="form-producto">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" name="nombre" id="input-nombre" placeholder="Nombre"
+                            aria-label="Nombre">
+                        <input type="text" class="form-control" name="apellido" id="input-apellido"
+                            placeholder="Apellido" aria-label="Apellido">
+                    </div>
+                    <button class="btn btn-primary" type="submit">Agregar Contacto</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+        crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        let contactos = [
+            {
+                nombre: 'Juan',
+                apellido: 'Perez',
+                telefono: '123456789',
+                favorito: false
+            },
+        ];
+
+        document.getElementById('form-producto').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const inputNombre = document.getElementById('input-nombre');
+            const inputApellido = document.getElementById('input-apellido');
+            const inputTelefono = document.getElementById('input-telefono');
+
+            const nombre = inputNombre.value.trim();
+            const apellido = inputApellido.value.trim();
+            const telefono = inputTelefono.value.trim();
+
+            if (nombre && apellido && telefono) {
+                agregarContacto(nombre, apellido, telefono);
+                mostrarListado();
+            }
+
+            inputNombre.value = '';
+            inputApellido.value = '';
+            inputTelefono.value = '';
+        });
+
+        function agregarContacto(nombre, apellido, telefono) {
+            contactos.push({
+                nombre: nombre,
+                apellido: apellido,
+                telefono: telefono,
+                favorito: false
+            });
+        }
+
+        function mostrarListado(filtrarFavoritos = false) {
+            const lista = document.getElementById('lista-contactos');
+            lista.innerHTML = '';
+
+            const contactosFiltrados = filtrarFavoritos ? contactos.filter(c => c.favorito) : contactos;
+
+            contactosFiltrados.forEach(contacto => {
+                const li = document.createElement('li');
+                li.innerHTML = `${contacto.nombre} ${contacto.apellido} - ${contacto.telefono} 
+                        <button onclick="marcarFavorito('${contacto.nombre}', '${contacto.apellido}')">
+                        ${contacto.favorito ? 'Quitar Favorito' : 'Favorito'}</button> 
+                        <button onclick="eliminarContacto('${contacto.nombre}', '${contacto.apellido}')">Eliminar</button>`;
+                lista.appendChild(li);
+            });
+        }
+
+        function ordenarLista(criterio) {
+            contactos.sort((a, b) => a[criterio].localeCompare(b[criterio]));
+            mostrarListado();
+        }
+
+        function eliminarContacto(nombre, apellido) {
+            contactos = contactos.filter(contacto => contacto.nombre !== nombre || contacto.apellido !== apellido);
+            mostrarListado();
+        }
+
+        function marcarFavorito(nombre, apellido) {
+            const contacto = contactos.find(contacto => contacto.nombre === nombre && contacto.apellido === apellido);
+            if (contacto) {
+                contacto.favorito = !contacto.favorito;
+                mostrarListado();
+            }
+        }
+
+        const ordenarPorNombreBtn = document.createElement('button');
+        ordenarPorNombreBtn.textContent = 'Ordenar por Nombre';
+        ordenarPorNombreBtn.classList.add('btn', 'btn-secondary', 'mt-2');
+        ordenarPorNombreBtn.onclick = () => ordenarLista('nombre');
+
+        const ordenarPorApellidoBtn = document.createElement('button');
+        ordenarPorApellidoBtn.textContent = 'Ordenar por Apellido';
+        ordenarPorApellidoBtn.classList.add('btn', 'btn-secondary', 'mt-2', 'ms-2');
+        ordenarPorApellidoBtn.onclick = () => ordenarLista('apellido');
+
+        const mostrarFavoritosBtn = document.createElement('button');
+        mostrarFavoritosBtn.textContent = 'Mostrar Favoritos';
+        mostrarFavoritosBtn.classList.add('btn', 'btn-secondary', 'mt-2', 'ms-2');
+        mostrarFavoritosBtn.onclick = () => mostrarListado(true);
+
+        const form = document.getElementById('form-producto');
+        const inputTelefono = document.createElement('input');
+        inputTelefono.type = 'text';
+        inputTelefono.classList.add('form-control');
+        inputTelefono.name = 'telefono';
+        inputTelefono.id = 'input-telefono';
+        inputTelefono.placeholder = 'Teléfono';
+        inputTelefono.setAttribute('aria-label', 'Teléfono');
+        form.querySelector('.input-group').appendChild(inputTelefono);
+
+        document.querySelector('.card-body').appendChild(ordenarPorNombreBtn);
+        document.querySelector('.card-body').appendChild(ordenarPorApellidoBtn);
+        document.querySelector('.card-body').appendChild(mostrarFavoritosBtn);
+
+        mostrarListado();
+
+
+    </script>
+</body>
+
+</html>
