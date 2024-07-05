@@ -1,39 +1,37 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Contactos - DOM y JavaScript</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 </head>
-
 <body>
     <div class="container my-1 my-sm-2 my-md-4 my-lg-5">
         <h1>Lista de Contactos</h1>
         <div class="card">
             <div class="card-body">
                 <h2>Contactos</h2>
-
-                <ul id="lista-contactos"></ul>
-
+                <ul id="lista-contactos" class="list-group mb-3"></ul>
                 <hr class="hr">
-
                 <h2>Nuevo Contacto</h2>
                 <form id="form-producto">
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" name="nombre" id="input-nombre" placeholder="Nombre"
-                            aria-label="Nombre">
-                        <input type="text" class="form-control" name="apellido" id="input-apellido"
-                            placeholder="Apellido" aria-label="Apellido">
+                        <input type="text" class="form-control" name="nombre" id="input-nombre" placeholder="Nombre" aria-label="Nombre">
+                        <input type="text" class="form-control" name="apellido" id="input-apellido" placeholder="Apellido" aria-label="Apellido">
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" name="telefono" id="input-telefono" placeholder="Teléfono" aria-label="Teléfono">
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" name="cantidad" id="input-cantidad" placeholder="Cantidad" aria-label="Cantidad">
                     </div>
                     <button class="btn btn-primary" type="submit">Agregar Contacto</button>
                 </form>
             </div>
         </div>
     </div>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
         crossorigin="anonymous"></script>
@@ -43,35 +41,44 @@
                 nombre: 'Juan',
                 apellido: 'Perez',
                 telefono: '123456789',
+                id: 1,
+                cantidad: '10',
                 favorito: false
-            },
+            }
         ];
+
+        let idCounter = 2;  // Inicializamos el contador de IDs
 
         document.getElementById('form-producto').addEventListener('submit', function (e) {
             e.preventDefault();
             const inputNombre = document.getElementById('input-nombre');
             const inputApellido = document.getElementById('input-apellido');
             const inputTelefono = document.getElementById('input-telefono');
+            const inputCantidad = document.getElementById('input-cantidad');
 
             const nombre = inputNombre.value.trim();
             const apellido = inputApellido.value.trim();
             const telefono = inputTelefono.value.trim();
+            const cantidad = inputCantidad.value.trim();
 
-            if (nombre && apellido && telefono) {
-                agregarContacto(nombre, apellido, telefono);
+            if (nombre && apellido && telefono && cantidad) {
+                agregarContacto(nombre, apellido, telefono, cantidad);
                 mostrarListado();
             }
 
             inputNombre.value = '';
             inputApellido.value = '';
             inputTelefono.value = '';
+            inputCantidad.value = '';
         });
 
-        function agregarContacto(nombre, apellido, telefono) {
+        function agregarContacto(nombre, apellido, telefono, cantidad) {
             contactos.push({
                 nombre: nombre,
                 apellido: apellido,
                 telefono: telefono,
+                id: idCounter++,  // Incrementamos el ID
+                cantidad: cantidad,
                 favorito: false
             });
         }
@@ -84,10 +91,16 @@
 
             contactosFiltrados.forEach(contacto => {
                 const li = document.createElement('li');
-                li.innerHTML = `${contacto.nombre} ${contacto.apellido} - ${contacto.telefono} 
-                        <button onclick="marcarFavorito('${contacto.nombre}', '${contacto.apellido}')">
-                        ${contacto.favorito ? 'Quitar Favorito' : 'Favorito'}</button> 
-                        <button onclick="eliminarContacto('${contacto.nombre}', '${contacto.apellido}')">Eliminar</button>`;
+                li.className = 'list-group-item d-flex justify-content-between align-items-center';
+                li.innerHTML = `
+                    ${contacto.nombre} ${contacto.apellido} - ${contacto.telefono} - ID: ${contacto.id} - Cantidad: ${contacto.cantidad}
+                    <div>
+                        <button class="btn btn-warning btn-sm me-2" onclick="marcarFavorito('${contacto.nombre}', '${contacto.apellido}')">
+                            ${contacto.favorito ? 'Quitar Favorito' : 'Favorito'}
+                        </button>
+                        <button class="btn btn-danger btn-sm" onclick="eliminarContacto('${contacto.nombre}', '${contacto.apellido}')">Eliminar</button>
+                    </div>
+                `;
                 lista.appendChild(li);
             });
         }
@@ -125,24 +138,11 @@
         mostrarFavoritosBtn.classList.add('btn', 'btn-secondary', 'mt-2', 'ms-2');
         mostrarFavoritosBtn.onclick = () => mostrarListado(true);
 
-        const form = document.getElementById('form-producto');
-        const inputTelefono = document.createElement('input');
-        inputTelefono.type = 'text';
-        inputTelefono.classList.add('form-control');
-        inputTelefono.name = 'telefono';
-        inputTelefono.id = 'input-telefono';
-        inputTelefono.placeholder = 'Teléfono';
-        inputTelefono.setAttribute('aria-label', 'Teléfono');
-        form.querySelector('.input-group').appendChild(inputTelefono);
-
         document.querySelector('.card-body').appendChild(ordenarPorNombreBtn);
         document.querySelector('.card-body').appendChild(ordenarPorApellidoBtn);
         document.querySelector('.card-body').appendChild(mostrarFavoritosBtn);
 
         mostrarListado();
-
-
     </script>
 </body>
-
 </html>
