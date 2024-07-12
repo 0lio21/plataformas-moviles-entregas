@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,16 +9,17 @@
 <body>
     <div class="container">
         <h1 class="text-center my-4">TP-15: Consumo de TheMealDB</h1>
-        <table class="table table-striped" id="data-table">
-            <thead class="table-dark">
-                <tr>
-                    <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Categoria</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
+        <div class="d-flex justify-content-center mb-3">
+            <button class="btn btn-primary mx-1" id="china">China</button>
+            <button class="btn btn-primary mx-1" id="italiana">Italiana</button>
+            <button class="btn btn-primary mx-1" id="americana">Americana</button>
+        </div>
+        <div id="loading" class="text-center" style="display: none;">
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Cargando...</span>
+            </div>
+        </div>
+        <div class="row" id="recipe-list"></div>
     </div>
 
     <script src="script.js"></script>
