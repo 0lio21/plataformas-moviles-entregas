@@ -9,11 +9,11 @@ document.addEventListener('DOMContentLoaded', () => {
     botonItaliano.addEventListener('click', () => obtenerRecetas('Italian'));
     botonAmericano.addEventListener('click', () => obtenerRecetas('American'));
 
-    function obtenerRecetas(comida) {
+    function obtenerRecetas(cocina) {
         listaRecetas.innerHTML = '';
         cargando.style.display = 'block';
 
-        fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?a=${comida}`)
+        fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?a=${cocina}`)
             .then(response => response.json())
             .then(data => {
                 cargando.style.display = 'none';
